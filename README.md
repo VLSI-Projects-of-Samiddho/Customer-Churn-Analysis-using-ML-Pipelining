@@ -11,6 +11,7 @@ A complete end-to-end machine learning pipeline for predicting customer churn us
 - [Project Workflow](#project-workflow)
 - [Models Used](#models-used)
 - [Results](#results)
+- [Keywords](#key-words)
 - [Inference from Results](#inference-from-results)
 - [Dependencies Used](#dependencies-used)
 
@@ -28,12 +29,25 @@ The pipeline covers data cleaning, encoding, preprocessing, model training, eval
 
 **Source:** [Customer Churn Dataset — Kaggle](https://www.kaggle.com/datasets/muhammadshahidazeem/customer-churn-dataset)
 
+### About the Dataset
+The testing file for the churn dataset consists of 64,374 customer records and serves as a separate dataset for evaluating the performance and generalization capabilities of trained churn prediction models. Each record in the testing file corresponds to a customer and contains the same set of features as the training file, such as age, gender, tenure, usage frequency, support calls, payment delay, subscription type, contract length, total spend, and last interaction. However, the churn labels are not included in the testing file as they are used for assessing the accuracy and effectiveness of the churn prediction models. The testing file allows businesses to assess the predictive power of their trained models on unseen data and gain insights into how well the models generalize to new customers. By analyzing the model's performance on the testing file, businesses can gauge the effectiveness of their churn prediction strategies and make informed decisions to optimize customer retention efforts. 
+
+
+
+### Dataset notable points
 | Property | Value |
 |---|---|
 | File | `customer_churn_dataset-training-master.csv` |
 | Target column | `Churn` (Yes / No → 1 / 0) |
-| Features | Demographics, account info, usage metrics |
 | Split | 80% train / 20% test (stratified) |
+
+### Dataset Parameters with details
+<img width="1631" height="815" alt="image" src="https://github.com/user-attachments/assets/4f70b995-2942-4a26-86c1-958e4f9ca0a8" />
+<img width="1632" height="817" alt="image" src="https://github.com/user-attachments/assets/cb47586f-c2a5-49c2-8599-65029d968a96" />
+<img width="1632" height="371" alt="image" src="https://github.com/user-attachments/assets/7658fcca-caf6-49dd-b20f-0343e96b24d1" />
+
+
+
 
 ---
 
@@ -111,6 +125,72 @@ All models evaluated on the held-out 20% test set. Results sorted by ROC-AUC.
 ### 4. Feature Importance
 <img width="956" height="682" alt="image" src="https://github.com/user-attachments/assets/badb8e2f-bef7-4a0b-a52f-e60cc8b6cdcf" />
 
+---
+---
+## Key Words
+
+### 1. ROC
+ROC (Receiver Operating Characteristic) is a graph that shows how well a binary classifier performs across all classification thresholds.
+
+|Axis| Representation|
+|---|---|
+|X-axis| False Positive Rate (FPR) — how often the model wrongly predicts positive|
+|Y-axis| True Positive Rate (TPR / Recall) — how often the model correctly predicts positive|
+
+A perfect classifier hugs the top-left corner. A random (useless) classifier follows the diagonal line.
+
+### 2. AUC
+AUC (Area Under Curve) is a single number that summarizes the ROC curve — literally the area under it.
+
+|AUC Value| Meaning|
+|---|---|
+|1| Perfect Classifier|
+|0.9+ but < 1| Excellent|
+|0.7-0.9| Good|
+|0.5| Random Guess|
+|<0.5|Worst|
+
+AUC is threshold-independent, making it great for comparing models regardless of the cutoff chosen.
+
+### 3. Pipelining
+A Pipeline chains preprocessing and modeling steps into a single, reproducible workflow and is used for **Preventing Data Leakage**, **Reproducibility and Clean Code**, **Easy cross-validation and hyperparameter tuning**.
+
+### 4. Confusion Matrix
+A Confusion Matrix is a summary table that breaks down the predictions of a classifier against the actual ground-truth labels, revealing not just how many mistakes were made, but what kind.
+| Square | Name | Model Predicted | Reality |
+|--------|------|-----------------|---------|
+|  TP | True Positive | Positive | Positive |
+|  TN | True Negative | Negative | Negative |
+|  FP | False Positive | Positive | Negative |
+|  FN | False Negative | Negative | Positive |
+
+### 4a) Metrics Derived Fron Confustion Matrix
+
+### i. Accuracy
+Accuracy is "How often is the model right overall?"
+
+
+$$\text{Accuracy} = \frac{TP+TN}{Total}$$
+
+### ii. Precision
+Precision is "When it predicts positive, how often is it correct?"
+
+$$\text{Precision} = \frac{TP}{TP + FP}$$
+
+### iii. Recall
+Recall is "Of all actual positives, how many did it catch?"
+
+$$\text{Recall} = \frac{TP}{TP + FN}$$
+
+### iv. F1 Score
+F1 score determines the "Balance between Precision and Recall"
+
+$$F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+### v. Specificity
+Specificity is based on "Of all actual negatives, how many did it correctly reject?"
+
+$$\text{Specificity} = \frac{TN}{TN + FP}$$
 ---
 
 ## Inference from Results
